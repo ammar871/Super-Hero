@@ -64,5 +64,18 @@ namespace OneProject.Controllers
             return Ok(await _context.superHeroes.ToListAsync());
         }
 
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<SuperHero>>> Delete(int id)
+        {
+            var dbHero = await _context.superHeroes.FindAsync(id);
+            if (dbHero == null)
+                return BadRequest("Hero not found.");
+
+            _context.superHeroes.Remove(dbHero);
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.superHeroes.ToListAsync());
+        }
     }
 }
